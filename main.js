@@ -35,11 +35,10 @@ app.use ((req, res, next)=> {
 app.set('view engine', 'ejs');
 
 
+// route prefix
+app.use("", require('./routes/routes'))
 
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
 
 app.listen(PORT, () => {
   console.log(`Server started at http://localhost:${PORT}`)
