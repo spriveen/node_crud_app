@@ -15,7 +15,28 @@ var storage = multer.diskStorage({
 });
  var upload = multer({
    storage: storage,
- }). single('image');
+ }). single("image");
+
+ // Insert an user into database route
+ router.post('/add', upload, async (req,res)=>{
+  const user = new User({
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    image: req.file.filename,
+
+  });
+  await user.save()
+    .then(() => {
+      req.session.message = {
+        type: 'success',
+        message: 'User added successfully!'
+      };
+      res.redirect("/");
+    })
+    .catch((err) => {
+      res.json({ message: err.message, type: 'danger' });
+    }); })
 
 // Your route definitions
 router.get('/', (req, res) => {
